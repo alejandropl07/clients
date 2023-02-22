@@ -1,8 +1,14 @@
 import "./App.css";
-import { Home } from "./components/Home";
+import AppRouter from "./router/AppRouter";
+import { StateProvider } from "./context/StateProvider";
+import {initialState, reducer} from './context/reducer'
 
-function App() {
-  return <Home />;
-}
+const App = () => {
+  return (
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <AppRouter />
+    </StateProvider>
+  );
+};
 
 export default App;
