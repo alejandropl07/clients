@@ -17,6 +17,7 @@ export const actionTypes = {
   CREATE_CLIENT: "CREATE_CLIENT",
   GET_CLIENTS: "GET_CLIENTS",
   SHOW_FORM_CLIENT: "SHOW_FORM_CLIENT",
+  SHOW_LIST_CLIENTS: "SHOW_LIST_CLIENTS",
   SHOW_WELCOME: "SHOW_WELCOME",
 };
 
@@ -38,6 +39,15 @@ export const reducer = (state, action) => {
         ...state,
         listClient: false,
         formClient: true,
+        editClient: false,
+        welcome: false,
+      };
+
+      case "SHOW_LIST_CLIENTS":
+      return {
+        ...state,
+        listClient: true,
+        formClient: false,
         editClient: false,
         welcome: false,
       };

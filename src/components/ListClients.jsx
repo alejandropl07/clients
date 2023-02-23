@@ -27,11 +27,10 @@ import { useStateValue } from "../context/StateProvider";
 import { actionTypes } from "../context/reducer";
 
 function ListClients() {
-  const [{ clients }, dispatch] = useStateValue();
+  const [{ clients, user }, dispatch] = useStateValue();
+  const { token, userid } = user;
 
   const [nombre, setNombre] = useState("");
-  const [token, setToken] = useState("");
-  const [userid, setUserId] = useState("");
   const [identificacion, setIdentificacion] = useState("");
 
   const nombreRef = useRef("");
@@ -60,6 +59,7 @@ function ListClients() {
   };
 
   const getClients = async () => {
+    console.log(token);
     await clientAxios
       .post(
         "api/Cliente/Listado",
@@ -105,7 +105,7 @@ function ListClients() {
 
   useEffect(() => {
     getClients();
-  }, []);
+  }, [token]);
   return (
     <Fragment>
       <Box
