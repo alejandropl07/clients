@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 const theme = createTheme();
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -27,7 +29,7 @@ export default function Register() {
       .then((response) => {
         // register();
         console.log(response);
-        // navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire({
@@ -37,7 +39,7 @@ export default function Register() {
           showCancelButton: false,
           confirmButtonColor: "#3085d6",
           confirmButtonText: "Aceptar!",
-        })
+        });
         console.log(error);
       });
   };

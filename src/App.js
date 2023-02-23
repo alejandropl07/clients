@@ -1,4 +1,3 @@
-import "./App.css";
 import AppRouter from "./router/AppRouter";
 import { StateProvider } from "./context/StateProvider";
 import {initialState, reducer} from './context/reducer'

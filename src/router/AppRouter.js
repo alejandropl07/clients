@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home } from "../components/Home";
+import FormClient from "../components/FormClient";
+import Home  from "../components/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import PrivateRoute from "./PrivateRoute";
@@ -12,7 +13,7 @@ const AppRouter = () => {
     <BrowserRouter>
       <>
         <Routes>
-          <Route
+          {/* <Route
             exact
             path="/login"
             element={
@@ -20,8 +21,8 @@ const AppRouter = () => {
                 <Login />
               </PublicRoute>
             }
-          />
-          <Route
+          /> */}
+          {/* <Route
             exact
             path="/"
             element={
@@ -29,8 +30,10 @@ const AppRouter = () => {
                 <Home />
               </PrivateRoute>
             }
-          />
-          <Route path="/register" element={<Register />} />
+          /> */}
+          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/create" element={<FormClient />} /> */}
         </Routes>
       </>
     </BrowserRouter>
