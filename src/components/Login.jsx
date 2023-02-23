@@ -13,13 +13,39 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import clientAxios from "../config/axios";
 
 import Swal from "sweetalert2";
+import { actionTypes } from "../context/reducer";
+import { useStateValue } from "../context/StateProvider";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const theme = createTheme();
 
 export default function Login() {
+  const [{ clients }, dispatch] = useStateValue();
+  const navigate = useNavigate();
+
+  let initialUsername = JSON.parse(localStorage.getItem("username"));
+
+  if (!initialUsername) {
+    initialUsername = "";
+  }
+
+  const [username, setUsername] = useState(initialUsername);
+
+  useEffect(() => {
+    let initialUsername = JSON.parse(localStorage.getItem("username"));
+
+    if (initialUsername) {
+      localStorage.setItem("username", JSON.stringify(username));
+    } else {
+      localStorage.setItem("username", JSON.stringify(""));
+    }
+  }, [username]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
     //Consultar la API
     await clientAxios
       .post("api/Authenticate/login", {
@@ -27,14 +53,18 @@ export default function Login() {
         password: data.get("password"),
       })
       .then((response) => {
-        // setResults(response.data);
-        /*  dispatch({
+        dispatch({
           type: actionTypes.LOGIN,
-          user: results,
-        });*/
+          user: response.data,
+        });
         console.log(response.data);
-        // login(response.data);
-        // navigate("/home");
+        console.log(data.get("remember"));
+        console.log(data.get("remembered"));
+        if (event.target.remember.checked) {
+          console.log(data.get("user"));
+          setUsername(data.get("user"));
+        }
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire({
@@ -91,8 +121,11 @@ export default function Login() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox value="remember" color="primary" id="remember" />
+              }
               label="Recuérdame"
+              id="remembered"
             />
             <Button
               type="submit"

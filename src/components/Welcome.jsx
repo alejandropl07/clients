@@ -1,8 +1,9 @@
 import { Typography } from "@mui/material";
 import React, { Fragment } from "react";
+import { useStateValue } from "../context/StateProvider";
 
 function Welcome() {
-
+  const [{ user }] = useStateValue();
   return (
     <Fragment>
       <Typography
@@ -12,7 +13,7 @@ function Welcome() {
         noWrap
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        Bienvenido  {""}    {"Alejandro"}
+        Bienvenido {""} {user?.username}
       </Typography>
     </Fragment>
   );

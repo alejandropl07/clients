@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import clientAxios from "../config/axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,12 +23,13 @@ import Box from "@mui/material/Box";
 
 import { useNavigate } from "react-router-dom";
 import Client from "./Client";
+import { useStateValue } from "../context/StateProvider";
+import { actionTypes } from "../context/reducer";
 
 function ListClients() {
-  //const [{ clients },   dispatch] = useStateValue();
+  const [{ clients }, dispatch] = useStateValue();
 
   const [nombre, setNombre] = useState("");
-  const [clients, setClients] = useState("");
   const [token, setToken] = useState("");
   const [userid, setUserId] = useState("");
   const [identificacion, setIdentificacion] = useState("");
@@ -41,11 +48,15 @@ function ListClients() {
   const navigate = useNavigate();
 
   const showFormClient = () => {
-    // displayFormAction();
+    dispatch({
+      type: actionTypes.SHOW_FORM_CLIENT,
+    });
   };
 
   const showWelcome = () => {
-    // displayWelcomeAction();
+    dispatch({
+      type: actionTypes.SHOW_WELCOME,
+    });
   };
 
   const getClients = async () => {
@@ -58,12 +69,11 @@ function ListClients() {
         }
       )
       .then((response) => {
-        /*  dispatch({
+        dispatch({
           type: actionTypes.GET_CLIENTS,
-          item: results,
-        });*/
+          clients: response.data,
+        });
         console.log(response);
-        // getClientsAction(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -177,7 +187,12 @@ function ListClients() {
           </TableHead>
           <TableBody>
             {clients?.map((client) => {
-              if (client.nombre.toLowerCase().includes(nombre.toLowerCase())  &&  client.identificacion.toLowerCase().includes(identificacion.toLowerCase()))
+              if (
+                client.nombre.toLowerCase().includes(nombre.toLowerCase()) &&
+                client.identificacion
+                  .toLowerCase()
+                  .includes(identificacion.toLowerCase())
+              )
                 return (
                   <Client
                     key={client.id}

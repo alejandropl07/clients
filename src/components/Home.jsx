@@ -24,6 +24,8 @@ import UpdateClient from "./UpdateClient";
 import { useNavigate } from "react-router-dom";
 import Welcome from "./Welcome";
 import Error from "./Error";
+import { useContext } from "react";
+import { useStateValue } from "../context/StateProvider";
 
 const drawerWidth = 240;
 
@@ -79,10 +81,9 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const [formClient, setFormClient] = useState("");
-  const [listClient, setListClient] = useState("");
-  const [editClient, setEditClient] = useState("");
-  const [welcome, setWelcome] = useState("");
+  const [{ user, editClient, listClient, formClient, welcome }] =
+    useStateValue();
+
   const [username, setUsername] = useState("");
   const [expiration, setExpiration] = useState("");
 
