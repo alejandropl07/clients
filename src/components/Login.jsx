@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -57,11 +57,7 @@ export default function Login() {
           type: actionTypes.LOGIN,
           user: response.data,
         });
-        console.log(response.data);
-        console.log(data.get("remember"));
-        console.log(data.get("remembered"));
         if (event.target.remember.checked) {
-          console.log(data.get("user"));
           setUsername(data.get("user"));
         }
         navigate("/");

@@ -13,6 +13,8 @@ import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import clientAxios from "../config/axios";
 import Swal from "sweetalert2";
+import { useStateValue } from "../context/StateProvider";
+import { actionTypes } from "../context/reducer";
 
 function FormClient() {
   const [nombre, setNombre] = useState("");
@@ -27,19 +29,43 @@ function FormClient() {
   const [resenaPersonal, setResenaPersonal] = useState("");
 
   const [interestSelect, setInterestSelect] = useState("");
-  const [token, setToken] = useState("")
-  const [interest, setInterest] = useState("")
-  const [error, setError] = useState("")
-  const userid = 1;
 
-  
+  const [{ user, error, interest }, dispatch] = useStateValue();
+  const { token, userid } = user;
+
+  const successValid = () => {
+    dispatch({
+      type: actionTypes.VALIDATE_SUCCESS,
+    });
+  };
+
+  const errorValid = () => {
+    dispatch({
+      type: actionTypes.VALIDATE_ERROR,
+    });
+  };
+
+  const showListClients = () => {
+    dispatch({
+      type: actionTypes.SHOW_LIST_CLIENTS,
+    });
+  };
+  const createClientAction = () => {
+    dispatch({
+      type: actionTypes.CREATE_CLIENT,
+    });
+  };
+
   const getInterest = async () => {
     await clientAxios
       .get("api/Intereses/Listado", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        // getInterestAction(response.data);
+        dispatch({
+          type: actionTypes.GET_INTEREST,
+          payload: response.data,
+        });
         console.log(response);
       })
       .catch((error) => {
@@ -62,10 +88,10 @@ function FormClient() {
       resenaPersonal.trim() === "" ||
       interestSelect.trim() === ""
     ) {
-    //   errorValid();
+      errorValid();
       return;
     }
-    // successValid();
+    successValid();
     await clientAxios
       .post(
         "/api/Cliente/Crear",
@@ -92,8 +118,8 @@ function FormClient() {
         }
       )
       .then((response) => {
-        // createClientAction();
-        // displayListAction();
+        showListClients();
+        createClientAction();
         console.log(response);
       })
       .catch((error) => {
@@ -138,7 +164,7 @@ function FormClient() {
             <SaveIcon />
             Guardar
           </IconButton>
-          <IconButton aria-label="back">
+          <IconButton aria-label="back" onClick={showListClients}>
             <KeyboardBackspaceIcon />
             Regresar
           </IconButton>
@@ -274,10 +300,12 @@ function FormClient() {
             </Select>
           </FormControl>
         </Box>
-        <Box  sx={{
+        <Box
+          sx={{
             display: "flex",
             justifyContent: "center",
-          }}>
+          }}
+        >
           <TextField
             sx={{ minWidth: "76%" }}
             required
@@ -288,10 +316,12 @@ function FormClient() {
             onChange={(e) => setDireccion(e.target.value)}
           />
         </Box>
-        <Box  sx={{
+        <Box
+          sx={{
             display: "flex",
             justifyContent: "center",
-          }}>
+          }}
+        >
           <TextField
             sx={{ minWidth: "76%" }}
             required

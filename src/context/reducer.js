@@ -10,15 +10,23 @@ export const initialState = {
   editClient: false,
   welcome: true,
   clients: [],
+  client: null,
+  interest: [],
+  error: false,
 };
 
 export const actionTypes = {
   LOGIN: "LOGIN",
   CREATE_CLIENT: "CREATE_CLIENT",
   GET_CLIENTS: "GET_CLIENTS",
+  GET_CLIENT_EDIT:"GET_CLIENT_EDIT",
   SHOW_FORM_CLIENT: "SHOW_FORM_CLIENT",
+  SHOW_EDIT_CLIENT: "SHOW_EDIT_CLIENT",
   SHOW_LIST_CLIENTS: "SHOW_LIST_CLIENTS",
   SHOW_WELCOME: "SHOW_WELCOME",
+  VALIDATE_SUCCESS: "VALIDATE_SUCCESS",
+  VALIDATE_ERROR: "VALIDATE_ERROR",
+  GET_INTEREST: "GET_INTEREST",
 };
 
 //   export const getBasketTotal = (basket) => {
@@ -34,6 +42,23 @@ export const reducer = (state, action) => {
         user: action.user,
       };
 
+    case "CREATE_CLIENT":
+      return {
+        ...state,
+      };
+
+    case "GET_CLIENTS":
+      return {
+        ...state,
+        clients: action.payload,
+      };
+
+      case "GET_CLIENT_EDIT":
+      return {
+        ...state,
+        client: action.payload,
+      };
+
     case "SHOW_FORM_CLIENT":
       return {
         ...state,
@@ -42,8 +67,17 @@ export const reducer = (state, action) => {
         editClient: false,
         welcome: false,
       };
+    
+      case "SHOW_EDIT_CLIENT":
+      return {
+        ...state,
+        listClient: false,
+        formClient: false,
+        editClient: true,
+        welcome: false,
+      };
 
-      case "SHOW_LIST_CLIENTS":
+    case "SHOW_LIST_CLIENTS":
       return {
         ...state,
         listClient: true,
@@ -59,6 +93,21 @@ export const reducer = (state, action) => {
         formClient: false,
         editClient: false,
         welcome: true,
+      };
+    case "VALIDATE_SUCCESS":
+      return {
+        ...state,
+        error: false,
+      };
+    case "VALIDATE_ERROR":
+      return {
+        ...state,
+        error: true,
+      };
+    case "GET_INTEREST":
+      return {
+        ...state,
+        interest: action.payload,
       };
     default:
       return state;

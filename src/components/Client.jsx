@@ -6,9 +6,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import clientAxios from "../config/axios";
+import { useStateValue } from "../context/StateProvider";
+import { actionTypes } from "../context/reducer";
 
 const Client = ({ client, getClients }) => {
-  const [token, setToken] = useState("second")
+  const [{ user }, dispatch] = useStateValue();
+  const { token } = user;
 
   const editClient = (id) => {
     clientAxios
@@ -16,8 +19,14 @@ const Client = ({ client, getClients }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        // getClientEditAction(response.data);
-        // displayEditAction();
+        console.log(response);
+        dispatch({
+          type: actionTypes.GET_CLIENT_EDIT,
+          payload: response.data,
+        });
+        dispatch({
+          type: actionTypes.SHOW_EDIT_CLIENT,
+        });
         console.log(response);
       })
       .catch((error) => {
@@ -25,7 +34,7 @@ const Client = ({ client, getClients }) => {
       });
   };
 
-  const deleteClient = (event,  id) => {
+  const deleteClient = (event, id) => {
     event.preventDefault();
     // Confirmacion de Sweet Alert
     Swal.fire({
@@ -69,7 +78,7 @@ const Client = ({ client, getClients }) => {
         </IconButton>
         <IconButton
           aria-label="delete"
-          onClick={(event) => deleteClient(event,  client.id)}
+          onClick={(event) => deleteClient(event, client.id)}
         >
           <DeleteIcon />
         </IconButton>

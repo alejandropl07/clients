@@ -59,7 +59,6 @@ function ListClients() {
   };
 
   const getClients = async () => {
-    console.log(token);
     await clientAxios
       .post(
         "api/Cliente/Listado",
@@ -71,9 +70,8 @@ function ListClients() {
       .then((response) => {
         dispatch({
           type: actionTypes.GET_CLIENTS,
-          clients: response.data,
+          payload: response.data,
         });
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -91,12 +89,11 @@ function ListClients() {
         }
       )
       .then((response) => {
-        /*  dispatch({
+        dispatch({
           type: actionTypes.GET_CLIENTS,
-          item: results,
-        });*/
+          clients: response.data,
+        });
         console.log(response);
-        // getClientsAction(response.data);
       })
       .catch((error) => {
         console.log(error);

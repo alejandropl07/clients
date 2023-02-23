@@ -14,33 +14,37 @@ import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import clientAxios from "../config/axios";
 import Swal from "sweetalert2";
+import { actionTypes } from "../context/reducer";
+import { useStateValue } from "../context/StateProvider";
 
 function UpdateClient() {
-  const [token, setToken] = useState("");
-  const [userid, setUserId] = useState("");
-  const [client, setClient] = useState("");
-  const [error, setError] = useState("");
-
-  const [interest, setInterest] = useState("");
-  // const { userid } = useSelector((state) => state.user.user);
-  // const { interest } = useSelector((state) => state.interest);
-  // const { token } = useSelector((state) => state.user.user);
+  const [{ user, client, error, interest }, dispatch] = useStateValue();
+  const { token, userid } = user;
 
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const displayListAction = () => dispatch(displayList());
 
   const showListClient = () => {
-    // displayListAction();
+    dispatch({
+      type: actionTypes.SHOW_LIST_CLIENTS,
+    });
   };
 
-  // const getInterestAction = (interest) =>
-  //   dispatch(getInterestSuccess(interest));
+  const getInterest = async () => {
+    await clientAxios
+      .get("api/Intereses/Listado", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        dispatch({
+          type: actionTypes.GET_INTEREST,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   // const updateClientAction = () => dispatch(updateClientAction());
-
-  // const { client } = useSelector((state) => state.clients);
-  // const { error } = useSelector((state) => state.validate);
 
   const [nombre, setNombre] = useState(client.nombre);
   const [apellidos, setApellidos] = useState(client.apellidos);
@@ -56,23 +60,6 @@ function UpdateClient() {
   const [sexo, setSexo] = useState(client.sexo);
   const [interestSelect, setInterestSelect] = useState(client.interesesId);
 
-  // const successValid = () => dispatch(validateSuccess());
-  // const errorValid = () => dispatch(validateError());
-
-  const getInterest = async () => {
-    await clientAxios
-      .get("api/Intereses/Listado", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        // getInterestAction(response.data);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const submitEditarCliente = async (event) => {
     event.preventDefault();
     if (
@@ -84,10 +71,14 @@ function UpdateClient() {
       direccion.trim() === "" ||
       resennaPersonal.trim() === ""
     ) {
-      // errorValid();
+      dispatch({
+        type: actionTypes.VALIDATE_ERROR,
+      });
       return;
     }
-    // successValid();
+    dispatch({
+      type: actionTypes.VALIDATE_SUCCESS,
+    });
     await clientAxios
       .post(
         "/api/Cliente/Actualizar",
@@ -129,6 +120,7 @@ function UpdateClient() {
   };
 
   useEffect(() => {
+    console.log(client);
     getInterest();
   }, []);
 
