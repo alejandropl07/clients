@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -14,7 +14,6 @@ import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItems from "./ListItems";
@@ -26,6 +25,7 @@ import Welcome from "./Welcome";
 import Error from "./Error";
 import { useContext } from "react";
 import { useStateValue } from "../context/StateProvider";
+import { actionTypes } from "../context/reducer";
 
 const drawerWidth = 240;
 
@@ -81,27 +81,25 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const [{ user, editClient, listClient, formClient, welcome }] =
+  const [{ user, editClient, listClient, formClient, welcome }, dispatch] =
     useStateValue();
 
-  const [username, setUsername] = useState("");
-  const [expiration, setExpiration] = useState("");
+  const { expiration, username } = user;
 
   const navigate = useNavigate();
 
-  //   const logout = () => dispatch(logoutSuccess());
-
   const logoutAction = () => {
-    // logout();
-    // navigate("/");
+    dispatch({
+      type: actionTypes.LOGOUT,
+    });
   };
 
-  //   useEffect(() => {
-  //     const date = new Date();
-  //     const expirationDate = new Date(expiration.toString());
-  //     const count = expirationDate.getTime() - date.getTime();
-  //     setTimeout(logout, count);
-  //   }, []);
+  useEffect(() => {
+    const date = new Date();
+    const expirationDate = new Date(expiration.toString());
+    const count = expirationDate.getTime() - date.getTime();
+    setTimeout(logoutAction, count);
+  }, []);
 
   return (
     <ThemeProvider theme={mdTheme}>

@@ -11,11 +11,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import clientAxios from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { actionTypes } from "../context/reducer";
+import { useStateValue } from "../context/StateProvider";
 
 const theme = createTheme();
 
 export default function Register() {
   const navigate = useNavigate();
+  const [{}, dispatch] = useStateValue();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,7 +30,10 @@ export default function Register() {
         password: data.get("password"),
       })
       .then((response) => {
-        // register();
+        dispatch({
+          type: actionTypes.REGISTER,
+          payload: response.data,
+        });
         console.log(response);
         navigate("/");
       })

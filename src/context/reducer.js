@@ -17,9 +17,11 @@ export const initialState = {
 
 export const actionTypes = {
   LOGIN: "LOGIN",
+  REGISTER: "REGISTER",
+  LOGOUT: "LOGOUT",
   CREATE_CLIENT: "CREATE_CLIENT",
   GET_CLIENTS: "GET_CLIENTS",
-  GET_CLIENT_EDIT:"GET_CLIENT_EDIT",
+  GET_CLIENT_EDIT: "GET_CLIENT_EDIT",
   SHOW_FORM_CLIENT: "SHOW_FORM_CLIENT",
   SHOW_EDIT_CLIENT: "SHOW_EDIT_CLIENT",
   SHOW_LIST_CLIENTS: "SHOW_LIST_CLIENTS",
@@ -29,17 +31,37 @@ export const actionTypes = {
   GET_INTEREST: "GET_INTEREST",
 };
 
-//   export const getBasketTotal = (basket) => {
-//     return basket?.reduce((amount, item) => item.price + amount, 0);
-//   };
-
 export const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
     case "LOGIN":
       return {
         ...state,
-        user: action.user,
+        user: action.payload,
+      };
+
+    case "REGISTER":
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case "LOGOUT":
+      return {
+        user: {
+          expiration: "",
+          username: "",
+          userid: "",
+          token: "",
+        },
+        listClient: false,
+        formClient: false,
+        editClient: false,
+        welcome: true,
+        clients: [],
+        client: null,
+        interest: [],
+        error: false,
       };
 
     case "CREATE_CLIENT":
@@ -53,7 +75,7 @@ export const reducer = (state, action) => {
         clients: action.payload,
       };
 
-      case "GET_CLIENT_EDIT":
+    case "GET_CLIENT_EDIT":
       return {
         ...state,
         client: action.payload,
@@ -67,8 +89,8 @@ export const reducer = (state, action) => {
         editClient: false,
         welcome: false,
       };
-    
-      case "SHOW_EDIT_CLIENT":
+
+    case "SHOW_EDIT_CLIENT":
       return {
         ...state,
         listClient: false,

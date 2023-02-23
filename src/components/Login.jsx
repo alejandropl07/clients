@@ -55,7 +55,7 @@ export default function Login() {
       .then((response) => {
         dispatch({
           type: actionTypes.LOGIN,
-          user: response.data,
+          payload: response.data,
         });
         if (event.target.remember.checked) {
           setUsername(data.get("user"));
