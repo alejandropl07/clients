@@ -104,6 +104,14 @@ function UpdateClient() {
         }
       )
       .then((response) => {
+        Swal.fire({
+          title: "Actualizado",
+          text: "Cliente editado con éxito!",
+          icon: "success",
+          showCancelButton: false,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Aceptar!",
+        });
         showListClient();
       })
       .catch((error) => {

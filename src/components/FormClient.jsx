@@ -120,8 +120,16 @@ function FormClient() {
         }
       )
       .then((response) => {
-        showListClients();
+        Swal.fire({
+          title: "Éxito",
+          text: "Cliente creado con éxito!",
+          icon: "success",
+          showCancelButton: false,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Aceptar!",
+        });
         createClientAction();
+        showListClients();
       })
       .catch((error) => {
         Swal.fire({
