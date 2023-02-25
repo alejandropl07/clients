@@ -16,12 +16,11 @@ import Swal from "sweetalert2";
 import { actionTypes } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const theme = createTheme();
 
 export default function Login() {
-  const [{ clients }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   const navigate = useNavigate();
 
   let initialUsername = JSON.parse(localStorage.getItem("username"));
@@ -31,21 +30,18 @@ export default function Login() {
   }
 
   const [username, setUsername] = useState(initialUsername);
+  const [checkbox, setCheckbox] = useState(false);
 
-  useEffect(() => {
-    let initialUsername = JSON.parse(localStorage.getItem("username"));
-
-    if (initialUsername) {
-      localStorage.setItem("username", JSON.stringify(username));
-    } else {
-      localStorage.setItem("username", JSON.stringify(""));
-    }
-  }, [username]);
+  const handleUsername = (e) => {
+    setUsername(e.target.name);
+  };
+  const handleCheckbox = (e) => {
+    setCheckbox(e.target.checked);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
     //Consultar la API
     await clientAxios
       .post("api/Authenticate/login", {
@@ -57,8 +53,9 @@ export default function Login() {
           type: actionTypes.LOGIN,
           payload: response.data,
         });
-        if (event.target.remember.checked) {
+        if (checkbox) {
           setUsername(data.get("user"));
+          localStorage.setItem("username", JSON.stringify(data.get("user")));
         }
         navigate("/");
       })
@@ -103,8 +100,9 @@ export default function Login() {
               id="user"
               label="Usuario"
               name="user"
-              autoComplete="user"
               autoFocus
+              defaultValue={username}
+              onChange={handleUsername}
             />
             <TextField
               margin="normal"
@@ -118,10 +116,14 @@ export default function Login() {
             />
             <FormControlLabel
               control={
-                <Checkbox value="remember" color="primary" id="remember" />
+                <Checkbox
+                  value="remember"
+                  color="primary"
+                  checked={checkbox}
+                  onChange={handleCheckbox}
+                />
               }
               label="Recuérdame"
-              id="remembered"
             />
             <Button
               type="submit"

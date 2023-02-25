@@ -56,6 +56,7 @@ function FormClient() {
     });
   };
 
+  // CARGAR INTERESES CLIENTE
   const getInterest = async () => {
     await clientAxios
       .get("api/Intereses/Listado", {
@@ -73,6 +74,7 @@ function FormClient() {
       });
   };
 
+  // CREAR NUEVO CLIENTE
   const createClient = async (event) => {
     event.preventDefault();
     if (

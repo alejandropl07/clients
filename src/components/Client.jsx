@@ -55,7 +55,7 @@ const Client = ({ client, getClients }) => {
           .then((response) => {
             Swal.fire("Eliminado!", "El cliente ha sido eliminado.", "success");
             console.log(response);
-            // getClients();
+             getClients();
           })
           .catch((error) => {
             console.log(error);

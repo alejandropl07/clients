@@ -20,12 +20,14 @@ function UpdateClient() {
   const [{ user, client, error, interest }, dispatch] = useStateValue();
   const { token, userid } = user;
 
+  // MOSTRAR LA VISTA DE LISTA DE CLIENTES
   const showListClient = () => {
     dispatch({
       type: actionTypes.SHOW_LIST_CLIENTS,
     });
   };
 
+  // CARGAR INTERESES CLIENTE
   const getInterest = async () => {
     await clientAxios
       .get("api/Intereses/Listado", {
@@ -42,6 +44,7 @@ function UpdateClient() {
       });
   };
 
+  //VALORES INICIALES DEL CLIENTE A MODIFICAR
   const [nombre, setNombre] = useState(client.nombre);
   const [apellidos, setApellidos] = useState(client.apellidos);
   const [identificacion, setIdentificacion] = useState(client.identificacion);
@@ -56,6 +59,7 @@ function UpdateClient() {
   const [sexo, setSexo] = useState(client.sexo);
   const [interestSelect, setInterestSelect] = useState(client.interesesId);
 
+  //ACCIÓN EDITAR CLIENTE
   const submitEditarCliente = async (event) => {
     event.preventDefault();
     if (
