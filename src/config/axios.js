@@ -6,7 +6,7 @@ const clientAxios = axios.create({
     requestCert: true,
     rejectUnauthorized: false,
   }),
-  baseURL: "https://209.105.239.29/PruebaReactJs/Api/",
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 export default clientAxios;

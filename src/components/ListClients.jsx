@@ -1,9 +1,4 @@
-import React, {
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import clientAxios from "../config/axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,8 +14,8 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 
-import { useNavigate } from "react-router-dom";
 import Client from "./Client";
 import { useStateValue } from "../context/StateProvider";
 import { actionTypes } from "../context/reducer";
@@ -42,8 +37,6 @@ function ListClients() {
   const onChangeIdentificacion = (value) => {
     setIdentificacion(value);
   };
-
-  const navigate = useNavigate();
 
   const showFormClient = () => {
     dispatch({
@@ -92,7 +85,6 @@ function ListClients() {
           type: actionTypes.GET_CLIENTS,
           clients: response.data,
         });
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -107,36 +99,40 @@ function ListClients() {
       <Box
         component="form"
         sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          "& .MuiTextField-root": { m: 2, width: "25ch", flexGrow: 1 },
         }}
         noValidate
         autoComplete="off"
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
+        <Grid
+          container
+          spacing={1}
+          sx={{ overflow: "hidden", marginBottom: "1rem" }}
         >
-          <IconButton aria-label="clients">
-            <AccountCircleIcon /> Consulta de clientes
-          </IconButton>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton>
+              <AccountCircleIcon /> Consulta de clientes
+            </IconButton>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton onClick={showFormClient} className="icon-button">
+              <AddIcon />
+              Agregar
+            </IconButton>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton
+              aria-label="back"
+              onClick={showWelcome}
+              className="icon-button"
+            >
+              <KeyboardBackspaceIcon />
+              Regresar
+            </IconButton>
+          </Grid>
+        </Grid>
 
-          <IconButton aria-label="save" onClick={showFormClient}>
-            <AddIcon />
-            Agregar
-          </IconButton>
-          <IconButton aria-label="back" onClick={showWelcome}>
-            <KeyboardBackspaceIcon />
-            Regresar
-          </IconButton>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <Grid container spacing={1} sx={{ overflow: "hidden" }}>
           <TextField
             sx={{ minWidth: "20%" }}
             id="nombre"
@@ -160,10 +156,11 @@ function ListClients() {
           <IconButton
             aria-label="search"
             onClick={(event) => getClientsFilter(event)}
+            sx={{ display: "flex", justifyContent: "center" }}
           >
             <SearchIcon />
           </IconButton>
-        </Box>
+        </Grid>
       </Box>
 
       <TableContainer component={Paper}>

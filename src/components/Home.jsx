@@ -20,10 +20,8 @@ import ListItems from "./ListItems";
 import ListClients from "./ListClients";
 import FormClient from "./FormClient";
 import UpdateClient from "./UpdateClient";
-import { useNavigate } from "react-router-dom";
 import Welcome from "./Welcome";
 import Error from "./Error";
-import { useContext } from "react";
 import { useStateValue } from "../context/StateProvider";
 import { actionTypes } from "../context/reducer";
 
@@ -86,8 +84,6 @@ function DashboardContent() {
 
   const { expiration, username } = user;
 
-  const navigate = useNavigate();
-
   const logoutAction = () => {
     dispatch({
       type: actionTypes.LOGOUT,
@@ -99,13 +95,13 @@ function DashboardContent() {
     const expirationDate = new Date(expiration.toString());
     const count = expirationDate.getTime() - date.getTime();
     setTimeout(logoutAction, count);
-  }, []);
+  }, [expiration]);
 
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={open} className="nav-bar">
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
@@ -130,7 +126,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Compañía prueba
+              COMPANIA PRUEBA
             </Typography>
 
             <Typography
@@ -139,10 +135,15 @@ function DashboardContent() {
               color="inherit"
               noWrap
               sx={{ display: "flex", alignItems: "right" }}
+              className="hidden"
             >
               {username}
             </Typography>
-            <IconButton color="inherit" onClick={logoutAction}>
+            <IconButton
+              color="inherit"
+              onClick={logoutAction}
+              className="logout"
+            >
               <Badge color="secondary">
                 <LogoutIcon />
               </Badge>
@@ -181,10 +182,16 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} >
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   {listClient ? (
                     <ListClients />
                   ) : formClient ? (

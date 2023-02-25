@@ -1,0 +1,28 @@
+.icon-button {
+  background-color: lavender !important;
+}
+
+.nav-bar {
+  background-color: midnightblue !important;
+}
+
+.logout {
+  background-color: white !important;
+  color: black !important;
+  margin-left: 1rem !important;
+}
+
+.hidden {
+  overflow: hidden;
+}
+
+.welcome {
+  word-break: break-all !important;
+  height: auto !important;
+}
+
+/* @media (min-width: 250px) {
+    .icon-button {
+      tex
+    }
+  } */

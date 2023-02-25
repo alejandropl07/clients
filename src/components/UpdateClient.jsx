@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -11,7 +11,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Select from "@mui/material/Select";
-import { useNavigate } from "react-router-dom";
 import clientAxios from "../config/axios";
 import Swal from "sweetalert2";
 import { actionTypes } from "../context/reducer";
@@ -20,8 +19,6 @@ import { useStateValue } from "../context/StateProvider";
 function UpdateClient() {
   const [{ user, client, error, interest }, dispatch] = useStateValue();
   const { token, userid } = user;
-
-  const navigate = useNavigate();
 
   const showListClient = () => {
     dispatch({
@@ -44,7 +41,6 @@ function UpdateClient() {
         console.log(error);
       });
   };
-  // const updateClientAction = () => dispatch(updateClientAction());
 
   const [nombre, setNombre] = useState(client.nombre);
   const [apellidos, setApellidos] = useState(client.apellidos);
@@ -133,195 +129,177 @@ function UpdateClient() {
       noValidate
       autoComplete="off"
     >
-      <div>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
+        <Grid
+          container
+          spacing={1}
+          sx={{ overflow: "hidden", marginBottom: "1rem" }}
         >
-          <IconButton aria-label="clients">
-            <AccountCircleIcon /> Mantenimiento de clientes
-          </IconButton>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton aria-label="clients">
+              <AccountCircleIcon /> Mantenimiento de clientes
+            </IconButton>
+          </Grid>
 
-          <IconButton aria-label="save" type="submit">
-            <SaveIcon />
-            Guardar
-          </IconButton>
-          <IconButton aria-label="back" onClick={showListClient}>
-            <KeyboardBackspaceIcon />
-            Regresar
-          </IconButton>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <TextField
-            sx={{ minWidth: "20%" }}
-            required
-            id="identificacion"
-            label="Identificación"
-            placeholder="Identificación"
-            defaultValue={client?.identificacion}
-            onChange={(e) => setIdentificacion(e.target.value)}
-          />
-
-          <TextField
-            sx={{ minWidth: "20%" }}
-            required
-            id="nombre"
-            label="Nombre"
-            placeholder="Nombre"
-            defaultValue={client?.nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
-          <TextField
-            sx={{ minWidth: "20%" }}
-            required
-            id="apellidos"
-            label="Apellidos"
-            placeholder="Apellidos"
-            defaultValue={client?.apellidos}
-            onChange={(e) => setApellidos(e.target.value)}
-          />
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <FormControl required sx={{ m: 1, minWidth: "20%" }}>
-            <InputLabel id="genero-label">Género</InputLabel>
-            <Select
-              labelId="genero-label"
-              id="genero"
-              label="Género *"
-              defaultValue={client?.sexo}
-              onChange={(e) => setSexo(e.target.value)}
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton aria-label="save" type="submit" className="icon-button">
+              <SaveIcon />
+              Guardar
+            </IconButton>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <IconButton
+              aria-label="back"
+              onClick={showListClient}
+              className="icon-button"
             >
-              <MenuItem value={client?.sexo}>
-                <em></em>
+              <KeyboardBackspaceIcon />
+              Regresar
+            </IconButton>
+          </Grid>
+        </Grid>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflow: "hidden",
+        }}
+      >
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="identificacion"
+          label="Identificación"
+          placeholder="Identificación"
+          defaultValue={client?.identificacion}
+          onChange={(e) => setIdentificacion(e.target.value)}
+        />
+
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="nombre"
+          label="Nombre"
+          placeholder="Nombre"
+          defaultValue={client?.nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="apellidos"
+          label="Apellidos"
+          placeholder="Apellidos"
+          defaultValue={client?.apellidos}
+          onChange={(e) => setApellidos(e.target.value)}
+        />
+
+        <FormControl required sx={{ m: 1, minWidth: "20%" }}>
+          <InputLabel id="genero-label">Género</InputLabel>
+          <Select
+            labelId="genero-label"
+            id="genero"
+            label="Género *"
+            defaultValue={client?.sexo}
+            onChange={(e) => setSexo(e.target.value)}
+          >
+            <MenuItem value={client?.sexo}>
+              <em></em>
+            </MenuItem>
+            <MenuItem value="M">Masculino</MenuItem>
+            <MenuItem value="F">Femenino</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          sx={{ minWidth: "20%" }}
+          name="fecha-nacimiento"
+          label="Fecha de nacimiento"
+          InputLabelProps={{ shrink: true, required: true }}
+          type="date"
+          defaultValue={client?.fNacimiento}
+          onChange={(e) => setFechaNac(e.target.value)}
+        />
+
+        <TextField
+          sx={{ minWidth: "20%" }}
+          name="fecha-afiliacion"
+          label="Fecha de afiliación"
+          InputLabelProps={{ shrink: true, required: true }}
+          type="date"
+          defaultValue={client?.fAfiliacion}
+          onChange={(e) => setFechaAfil(e.target.value)}
+        />
+
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="tel-cel"
+          label="Teléfono celular"
+          placeholder="Teléfono Celular"
+          defaultValue={client?.telefonoCelular}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={(e) => setCelular(e.target.value)}
+        />
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="tel-otro"
+          label="Teléfono otro"
+          placeholder="Teléfono Otro"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          defaultValue={client?.otroTelefono}
+          onChange={(e) => setOtroCel(e.target.value)}
+        />
+
+        <FormControl required sx={{ m: 1, minWidth: "20%" }}>
+          <InputLabel id="interes-label">Interés</InputLabel>
+          <Select
+            labelId="interes-label"
+            id="interes"
+            label="Interes"
+            defaultValue={client?.interesesId}
+            onChange={(e) => setInterestSelect(e.target.value)}
+          >
+            <MenuItem value={client?.interesesId}>
+              <em></em>
+            </MenuItem>
+            {interest?.map((int) => (
+              <MenuItem key={int.id} value={int.id}>
+                {int.descripcion}
               </MenuItem>
-              <MenuItem value="M">Masculino</MenuItem>
-              <MenuItem value="F">Femenino</MenuItem>
-            </Select>
-          </FormControl>
+            ))}
+          </Select>
+        </FormControl>
 
-          <TextField
-            sx={{ minWidth: "20%" }}
-            name="fecha-nacimiento"
-            label="Fecha de nacimiento"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue={client?.fNacimiento}
-            onChange={(e) => setFechaNac(e.target.value)}
-          />
+        <TextField
+          sx={{ minWidth: "20%" }}
+          required
+          id="direccion"
+          label="Dirección"
+          placeholder="Dirección"
+          defaultValue={client?.direccion}
+          onChange={(e) => setDireccion(e.target.value)}
+        />
+      </Box>
 
-          <TextField
-            sx={{ minWidth: "20%" }}
-            name="fecha-afiliacion"
-            label="Fecha de afiliación"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue={client?.fAfiliacion}
-            onChange={(e) => setFechaAfil(e.target.value)}
-          />
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <TextField
-            sx={{ minWidth: "20%" }}
-            required
-            id="tel-cel"
-            label="Teléfono celular"
-            placeholder="Teléfono Celular"
-            defaultValue={client?.telefonoCelular}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(e) => setCelular(e.target.value)}
-          />
-          <TextField
-            sx={{ minWidth: "20%" }}
-            required
-            id="tel-otro"
-            label="Teléfono otro"
-            placeholder="Teléfono Otro"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            defaultValue={client?.otroTelefono}
-            onChange={(e) => setOtroCel(e.target.value)}
-          />
-
-          <FormControl required sx={{ m: 1, minWidth: "20%" }}>
-            <InputLabel id="interes-label">Interés</InputLabel>
-            <Select
-              labelId="interes-label"
-              id="interes"
-              label="Interes"
-              defaultValue={client?.interesesId}
-              onChange={(e) => setInterestSelect(e.target.value)}
-            >
-              <MenuItem value={client?.interesesId}>
-                <em></em>
-              </MenuItem>
-              {interest?.map((int) => (
-                <MenuItem key={int.id} value={int.id}>
-                  {int.descripcion}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <TextField
-            sx={{ minWidth: "76%" }}
-            required
-            id="direccion"
-            label="Dirección"
-            placeholder="Dirección"
-            defaultValue={client?.direccion}
-            onChange={(e) => setDireccion(e.target.value)}
-          />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <TextField
-            sx={{ minWidth: "76%" }}
-            required
-            id="resena"
-            label="Reseña"
-            placeholder="Reseña"
-            defaultValue={client?.resenaPersonal}
-            onChange={(e) => setResena(e.target.value)}
-          />
-        </Box>
-      </div>
+      <TextField
+        sx={{ minWidth: "20%" }}
+        required
+        id="resena"
+        label="Reseña"
+        placeholder="Reseña"
+        defaultValue={client?.resenaPersonal}
+        onChange={(e) => setResena(e.target.value)}
+      />
       {error ? (
         <Typography
           component="h1"
           variant="h5"
-          color="inherit"
+          color="red"
           noWrap
           sx={{
             display: "flex",
